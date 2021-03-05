@@ -1,0 +1,8 @@
+[2021-03-05T17:40:34.320] [DEBUG] cheese - login => username:张三,password:123456
+[2021-03-05T17:40:34.321] [DEBUG] cheese - 张三
+[2021-03-05T17:40:34.328] [DEBUG] cheese - null
+[2021-03-05T17:40:34.328] [DEBUG] cheese - null
+[2021-03-05T17:40:53.938] [DEBUG] cheese - login => username:admin,password:123456
+[2021-03-05T17:40:53.938] [DEBUG] cheese - admin
+[2021-03-05T17:40:53.944] [DEBUG] cheese - null
+[2021-03-05T17:40:53.945] [DEBUG] cheese - null
