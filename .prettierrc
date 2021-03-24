@@ -1,0 +1,4 @@
+{
+  "semi":false,//去除{}后的分号
+  "singleQuote":true//默认使用单引号表示字符串
+}

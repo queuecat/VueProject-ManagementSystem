@@ -1,27 +1,50 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue"
+import VueRouter from "vue-router"
+// 引入登录组件
+import Login from "../components/Login.vue"
+//引入home组件
+import Home from "../components/Home.vue"
+//导入home组件的子路由welcome
+import Welcome from "../components/Welcome.vue"
+//导入home组件的子路由users
+import Users from "../components/user/Users.vue"
+
 
 Vue.use(VueRouter)
-
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
-
+//配置路由规则
 const router = new VueRouter({
-  routes
+  routes: [
+    {
+      path: "/",
+      redirect: "/login"
+    }, //登录路由
+    {
+      path: "/login",
+      component: Login
+    }, //主页路由
+    {
+      path: "/home",
+      component: Home,
+      redirect: '/welcome',
+      children: [
+        //二级路由
+        { path: '/welcome', component: Welcome },
+        { path: '/users', component: Users }
+      ]
+    }
+  ]
+})
+// 为路由对象，添加 beforeEach 导航守卫
+router.beforeEach((to, from, next) => {
+  // 如果用户访问的登录页，直接放行
+  if (to.path === "/login") return next()
+  // 若访问的非登录页面
+  // 从 sessionStorage 中获取到 保存的 token 值
+  const tokenStr = window.sessionStorage.getItem("token")
+  // 没有token，强制跳转到登录页
+  if (!tokenStr) return next("/login")
+  // 含有token放行
+  next()
 })
 
 export default router
