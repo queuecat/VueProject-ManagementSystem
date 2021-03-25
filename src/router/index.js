@@ -8,6 +8,10 @@ import Home from "../components/Home.vue"
 import Welcome from "../components/Welcome.vue"
 //导入home组件的子路由users
 import Users from "../components/user/Users.vue"
+//导入home组件的子路由rights
+import Rights from "../components/power/rights.vue"
+//导入home组件的子路由Roles
+import Roles from "../components/power/Roles.vue"
 
 
 Vue.use(VueRouter)
@@ -29,7 +33,9 @@ const router = new VueRouter({
       children: [
         //二级路由
         { path: '/welcome', component: Welcome },
-        { path: '/users', component: Users }
+        { path: '/users', component: Users },
+        { path: '/rights', component: Rights },
+        { path: '/roles', component: Roles },
       ]
     }
   ]

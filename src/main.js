@@ -21,7 +21,6 @@ axios.interceptors.request.use(config => {
 //将axios挂载到Vue原型上，方便在组件中使用
 Vue.prototype.$http = axios
 
-
 Vue.config.productionTip = false
 
 new Vue({
