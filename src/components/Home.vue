@@ -103,7 +103,7 @@
       async getMenuList(){//调用API获取菜单信息
         const {data:res}=await this.$http.get('menus')
         console.log(res);
-        if (res.meta.status!==200) this.$message.console.error(res.meta.msg);
+        if (res.meta.status!==200) return this.$message.console.error(res.meta.msg);
         this.menulist = res.data
       },
       // 点击按钮收起菜单

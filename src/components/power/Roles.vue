@@ -16,7 +16,7 @@
         <el-button
           type="primary"
           @click="addDialogVisible = true"
-        >添加用户</el-button>
+        >添加角色</el-button>
       </el-row>
       <!-- 权限列表 -->
       <el-table
