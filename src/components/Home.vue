@@ -4,8 +4,9 @@
     <el-header>
       <div>
         <img
-          src="../assets/heima.png"
+          src="../assets/logoT.png"
           alt="加载错误"
+          class="logoT"
         >
         <span>电商后台管理系统</span>
       </div>
@@ -119,6 +120,9 @@
 }
 </script>
 <style lang="less" scoped>
+.logoT{
+  height: 60px;
+}
 .el-container{
   height: 100%;
 }
