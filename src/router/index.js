@@ -14,6 +14,8 @@ import Rights from "../components/power/rights.vue"
 import Roles from "../components/power/Roles.vue"
 //导入home组件的子路由cate
 import Cate from "../components/goods/Cate.vue"
+//导入home组件的子路由params
+import Params from "../components/goods/Params.vue"
 
 
 Vue.use(VueRouter)
@@ -39,6 +41,7 @@ const router = new VueRouter({
         { path: '/rights', component: Rights },
         { path: '/roles', component: Roles },
         { path: '/categories', component: Cate },
+        { path: '/params', component: Params },
       ]
     }
   ]

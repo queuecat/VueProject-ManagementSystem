@@ -27,7 +27,10 @@ import {
   Tree,
   Select,
   Option,
-  Cascader
+  Cascader,
+  Alert,
+  Tabs,
+  TabPane
 } from 'element-ui'
 //导入信息提示组件
 import { Message } from 'element-ui'
@@ -58,8 +61,9 @@ Vue.use(Tree)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Cascader)
-
-
+Vue.use(Alert)
+Vue.use(TabPane)
+Vue.use(Tabs)
 
 //将消息提示组件挂载到vue实例上
 Vue.prototype.$message = Message

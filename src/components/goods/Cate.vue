@@ -275,7 +275,7 @@ export default {
       this.addForm.cat_pid = 0;
       this.addForm.cat_level = 0;
     },
-    // 获取腹肌分类的数据列表
+    // 获取父级分类的数据列表
     async getParentCatList(){
       const {data:res} = await this.$http.get('categories',{params:{type:2}});
       if(res.meta.status!==200) return this.$message.error("获取分类归属信息失败");
