@@ -131,9 +131,9 @@
     </el-card>
     <!-- 点击添加用户按钮弹出对话框 -->
     <el-dialog
-      title="新增用户"
+      title="新增角色"
       :visible.sync="addDialogVisible"
-      width="50%"
+      width="30%"
       @close="addDialogClosed"
     >
       <!-- 内容主题区域 -->
@@ -170,9 +170,9 @@
     </el-dialog>
     <!-- 点击编辑弹出编辑对话框 -->
     <el-dialog
-      title="编辑用户"
+      title="编辑角色"
       :visible.sync="editDialogVisible"
-      width="50%"
+      width="30%"
       @close="editDialogClosed"
     >
       <!-- 内容主题区域 -->
@@ -211,7 +211,7 @@
     <el-dialog
       title="分配权限"
       :visible.sync="setRightDialogVisible"
-      width="50%"
+      width="30%"
       @close="setRightDialogClosed"
     >
       <!-- 
@@ -353,17 +353,17 @@ export default {
       const {data:result} = await this.$http.delete('roles/'+id);
       console.log(result);
       if (result.meta.status!==200) {
-        this.$message.error("删除失败")
+        return this.$message.error("删除失败")
       }
       this.$message.success("删除成功")
       this.getRoleList()
     },
     //显现修改用户对话框，同时查询数据并渲染
     async showEditDialog({row:{id}}){
-      this.editDialogVisible = true;
       const {data:res} = await this.$http.get('roles/'+id)
       if(res.meta.status!==200) return this.$message.error("查询当前角色失败")
       this.editForm = res.data;
+      this.editDialogVisible = true;
     },
     //修改表单关闭重置验证规则
     editDialogClosed(){
@@ -404,7 +404,7 @@ export default {
       const {data:result} = await this.$http.delete(`roles/${role.id}/rights/${rightId}`);
       // console.log(result);
       if (result.meta.status!==200) {
-        this.$message.error("删除失败")
+        return this.$message.error("删除失败")
       }
       // this.$message.success("删除成功")
       role.children = result.data

@@ -133,7 +133,7 @@
     <el-dialog
       title="新增用户"
       :visible.sync="addDialogVisible"
-      width="50%"
+      width="30%"
       @close="addDialogClosed"
     >
       <!-- 内容主题区域 -->
@@ -184,7 +184,7 @@
     <el-dialog
       title="修改用户"
       :visible.sync="editDialogVisible"
-      width="50%"
+      width="30%"
       @close="editDialogClosed"
     >
       <el-form
@@ -227,7 +227,7 @@
     <el-dialog
       title="分配角色"
       :visible.sync="setRoleDialogVisible"
-      width="50%"
+      width="30%"
       @close="setRoleDialogClosed"
     >
       <div>

@@ -26,7 +26,8 @@ import {
   Tag,
   Tree,
   Select,
-  Option
+  Option,
+  Cascader
 } from 'element-ui'
 //导入信息提示组件
 import { Message } from 'element-ui'
@@ -56,7 +57,7 @@ Vue.use(Tag)
 Vue.use(Tree)
 Vue.use(Select)
 Vue.use(Option)
-
+Vue.use(Cascader)
 
 
 
