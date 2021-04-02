@@ -65,7 +65,7 @@
       </el-aside>
       <!-- 右侧主体区域 -->
       <el-main>
-        <!-- 路由占位符 -->
+        <!-- 子路由占位符 -->
         <router-view></router-view>
       </el-main>
     </el-container>
