@@ -397,17 +397,20 @@ export default {
       }
       this.UserList = res.data.users;
       this.total = res.data.total;
-    },//监听pagesize改变的事件
+    },
+    //监听pagesize改变的事件
     handleSizeChange(newSize){
       this.queryInfo.pagesize = newSize;
       //重新获取数据
       this.getUserList();
-    },//页码值切换事件
+    },
+    //页码值切换事件
     handleCurrentChange(newNum){
       this.queryInfo.pagenum = newNum;
       //重新获取数据
       this.getUserList();
-    },//监听开关的开关状态
+    },
+    //监听开关的开关状态
     async userStateChanged(userinfo){
      const {data:res} = await this.$http.put(`users/${userinfo.id}/state/${userinfo.mg_state}`)
       if (res.meta.status!==200) {

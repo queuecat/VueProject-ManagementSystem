@@ -20,6 +20,8 @@ import Params from "../components/goods/Params.vue"
 import List from "../components/goods/List.vue"
 //导入home组件的子路由Add
 import Add from "../components/goods/Add.vue"
+//导入home组件的子路由Order
+import Order from "../components/order/Order.vue"
 
 
 Vue.use(VueRouter)
@@ -48,6 +50,7 @@ const router = new VueRouter({
         { path: '/params', component: Params },
         { path: '/goods', component: List },
         { path: '/goods/add', component: Add },
+        { path: '/orders', component: Order },
       ]
     }
   ]
