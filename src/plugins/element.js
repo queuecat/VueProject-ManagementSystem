@@ -34,7 +34,8 @@ import {
   Steps,
   Step,
   checkboxGroup,
-  Checkbox
+  Checkbox,
+  Upload
 } from 'element-ui'
 //导入信息提示组件
 import { Message } from 'element-ui'
@@ -72,7 +73,7 @@ Vue.use(Steps)
 Vue.use(Step)
 Vue.use(checkboxGroup)
 Vue.use(Checkbox)
-
+Vue.use(Upload)
 
 
 //将消息提示组件挂载到vue实例上

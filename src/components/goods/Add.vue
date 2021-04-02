@@ -74,13 +74,19 @@
               label="商品重量"
               prop="goods_weight"
             >
-              <el-input v-model="addForm.goods_weight"></el-input>
+              <el-input
+                v-model="addForm.goods_weight"
+                type="number"
+              ></el-input>
             </el-form-item>
             <el-form-item
               label="商品数量"
               prop="goods_number"
             >
-              <el-input v-model="addForm.goods_number"></el-input>
+              <el-input
+                v-model="addForm.goods_number"
+                type="number"
+              ></el-input>
             </el-form-item>
 
             <el-form-item
@@ -100,6 +106,10 @@
             label="商品参数"
             name="1"
           >
+            <el-tag
+              v-if="manyTableData.length===0"
+              type="info"
+            >暂无参数</el-tag>
             <el-form-item
               :label="item.attr_name"
               v-for="item in manyTableData"
@@ -124,23 +134,68 @@
             label="商品属性"
             name="2"
           >
+            <el-tag
+              v-if="onlyTableData.length===0"
+              type="info"
+            >暂无参数</el-tag>
+            <el-form-item
+              :label="item.attr_name"
+              v-for="item in onlyTableData"
+              :key="item.attr_id"
+            >
+              <el-input v-model="item.attr_vals"></el-input>
+            </el-form-item>
 
           </el-tab-pane>
           <el-tab-pane
             label="商品图片"
             name="3"
           >
+            <el-upload
+              class="upload-demo"
+              :action="uploadURL"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :on-success="handleSuccess"
+              list-type="picture"
+              :headers="headObj"
+              :on-error="handleError"
+            >
+              <el-button
+                size="small"
+                type="primary"
+              >点击上传</el-button>
 
+            </el-upload>
           </el-tab-pane>
           <el-tab-pane
             label="商品内容"
             name="4"
           >
-
+            <!-- 富文本插件 -->
+            <quill-editor v-model="addForm.goods_introduce" />
+            <!-- 添加商品按钮 -->
+            <el-button
+              class="btnAdd"
+              type="primary"
+              @click="add"
+            >添加商品</el-button>
           </el-tab-pane>
         </el-tabs>
       </el-form>
     </el-card>
+    <!-- 图片预览 -->
+    <el-dialog
+      title="图片预览"
+      :visible.sync="previewVisible"
+      width="50%"
+    >
+      <img
+        class="previewImg"
+        :src="previewPath"
+        alt="显示失败"
+      >
+    </el-dialog>
   </div>
 </template>
 
@@ -154,8 +209,15 @@ export default {
       addForm:{
         goods_name:"",
         goods_price:0,
-        goods_price:0,
-        goods_cat:[]
+        goods_weight:0,
+        goods_number:0,
+        goods_cat:[],
+        // 图片数组
+        pics:[],
+        // 商品内容：富文本
+        goods_introduce:'',
+        // 参数与属性
+        attrs:[]
       },
       // 校验规则
       addFormRules:{
@@ -174,8 +236,19 @@ export default {
       // 存储商品分类
       cateList:[],
       // 参数数据列表
-      manyTableData:[]
-      
+      manyTableData:[],
+      // 属性数据列表
+      onlyTableData:[],
+      // 图片上传请求头
+      headObj:{
+        Authorization:window.sessionStorage.getItem('token')
+      },
+      // 图片上传路径
+      uploadURL:"http://127.0.0.1:8888/api/private/v1/upload",
+      // 预览图地址
+      previewPath:"",
+      // 预览图对话框
+      previewVisible:false,
     }
   },
   methods: {
@@ -205,9 +278,80 @@ export default {
         res.data.forEach(item=>{
           item.attr_vals = item.attr_vals? item.attr_vals.split(' ') : [];
         })
-       this.manyTableData = res.data;
-      console.log(this.manyTableData);
+        this.manyTableData = res.data;
+        // console.log(this.manyTableData);
       }
+      // 访问静态属性面板
+      if(this.activeIndex==='2'){
+        const {data:res} = await this.$http.get(`categories/${this.cateId}/attributes`,{params:{sel:'only'}});
+        if(res.meta.status!==200) return this.$message.error("获取属性信息失败");
+        // res.data.forEach(item=>{
+        //   item.attr_vals = item.attr_vals? item.attr_vals.split(' ') : [];
+        // })
+       this.onlyTableData = res.data;
+      // console.log(this.onlyTableData);
+      }
+    },
+    // 文件删除钩子
+    handleRemove(file){
+      // 1.获取路径
+      const filePath = file.response.data.tmp_path;
+      // 2.找到pics中该项索引
+      const index = this.addForm.pics.findIndex(item=>item.pic===filePath);
+      // 3.删除该索引对应元素
+      this.addForm.pics.splice(index,1);
+      // console.log(this.addForm.pics);
+    },
+    //文件上传成功
+    handleSuccess(response){
+      const picInfo = {pic:response.data.tmp_path};
+      this.addForm.pics.push(picInfo);
+      // console.log(this.addForm.pics);
+    },
+    // 上传失败
+    handleError(){
+      this.$message.error("图片上传失败");
+    },
+    // 预览图
+    handlePreview(file){
+      this.previewPath = file.response.data.url;
+      this.previewVisible=true;
+    },
+    // 添加商品
+    async add(){
+       this.$refs.addFormRef.validate(async valid=>{
+        if (!valid) return this.$message.error("请填写必填项！");
+        // 数据处理逻辑
+        const obj = JSON.parse(JSON.stringify(this.addForm));
+        obj.goods_cat = obj.goods_cat.join(',');
+        // 处理动态参数
+        this.manyTableData.forEach(item=>{
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value:item.attr_vals.join(' ')
+          }
+          this.addForm.attrs.push(newInfo)
+        })
+        // 处理静态属性
+        this.onlyTableData.forEach(item=>{
+          const newInfo = {
+            attr_id: item.attr_id,
+            attr_value:item.attr_vals
+          }
+          this.addForm.attrs.push(newInfo)
+        })
+        obj.attrs = this.addForm.attrs;
+        // console.log(obj,this.addForm);
+
+        //验证成功发起网络请求
+        const {data:res} = await this.$http.post('goods',obj);
+        if (res.meta.status!==201) {
+          return this.$message.error("添加失败")
+        }
+        this.$message.success('添加成功');
+        this.$router.push('/goods')
+        
+      })
     }
   },
   created() {
@@ -232,6 +376,15 @@ export default {
 }
 .el-checkbox{
   margin: 0 10px 0 0 !important;
+}
+.el-upload-list--picture .el-upload-list__item-thumbnail{
+object-fit: cover;
+}
+.previewImg{
+  width: 100%;
+}
+.btnAdd{
+  margin-top: 15px;
 }
 </style>
 

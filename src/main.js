@@ -9,6 +9,12 @@ import './assets/css/global.css'
 import './assets/fonts/iconfont.css'
 // 导入vue-table-tree-grid插件
 import TreeTable from 'vue-table-with-tree-grid'
+// 导入富文本编辑器
+import VueQuillEditor from 'vue-quill-editor'
+// 富文本样式表
+import 'quill/dist/quill.core.css' // import styles
+import 'quill/dist/quill.snow.css' // for snow theme
+import 'quill/dist/quill.bubble.css' // for bubble theme
 //导入axios
 import axios from 'axios'
 //设置axios默认设置
@@ -27,6 +33,8 @@ Vue.prototype.$http = axios
 Vue.config.productionTip = false
 // 注册全局组件vue-table-tree-grid
 Vue.component('tree-table', TreeTable)
+// 将富文本编辑器注册为全局组件
+Vue.use(VueQuillEditor)
 
 // 全局过滤器
 Vue.filter('dateFormat', function (originVal) {
