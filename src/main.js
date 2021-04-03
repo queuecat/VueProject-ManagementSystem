@@ -15,18 +15,28 @@ import VueQuillEditor from 'vue-quill-editor'
 import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.snow.css' // for snow theme
 import 'quill/dist/quill.bubble.css' // for bubble theme
+// 导入nprogress进度条
+import Nprogress from "nprogress"
+import "nprogress/nprogress.css"
 //导入axios
 import axios from 'axios'
 //设置axios默认设置
 axios.defaults.baseURL = "http://127.0.0.1:8888/api/private/v1/"//默认路径
-// axios请求拦截,添加token
+// axios请求拦截,添加token和进度条start方法
 axios.interceptors.request.use(config => {
   var token = window.sessionStorage.getItem('token')
   // 为请求头对象，添加 Token 验证的 Authorization 字段
   if (token)
     config.headers.Authorization = token
+  Nprogress.start()
   return config
 })
+// axios的response拦截器，进度条done方法
+axios.interceptors.response.use(config => {
+  Nprogress.done()
+  return config
+})
+
 //将axios挂载到Vue原型上，方便在组件中使用
 Vue.prototype.$http = axios
 
