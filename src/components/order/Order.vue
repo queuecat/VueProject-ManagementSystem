@@ -104,7 +104,7 @@
             <!-- 定位 -->
             <el-tooltip
               effect="dark"
-              content="修改地址"
+              content="物流进度"
               placement="top"
               :enterable="false"
             >
@@ -112,7 +112,7 @@
                 type="success"
                 icon="el-icon-location"
                 size="mini"
-                @click="setRole(scope.row)"
+                @click="showProgressBox(scope.row)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -150,7 +150,7 @@
           <el-cascader
             v-model="addressForm.address1"
             :options="cityData"
-            :props="{ expandTrigger: 'hover',value,label,children:'children'}"
+            :props="{ expandTrigger: 'hover'}"
             clearable
           ></el-cascader>
         </el-form-item>
@@ -171,6 +171,22 @@
           @click="editInfo"
         >确 定</el-button>
       </span>
+    </el-dialog>
+    <!-- 物流进度对话框 -->
+    <el-dialog
+      title="物流进度"
+      :visible.sync="progressDialogVisible"
+      width="50%"
+    >
+      <el-timeline>
+        <el-timeline-item
+          v-for="(activity, index) in progressInfo"
+          :key="index"
+          :timestamp="activity.time"
+        >
+          {{activity.context}}
+        </el-timeline-item>
+      </el-timeline>
     </el-dialog>
   </div>
 </template>
@@ -208,6 +224,12 @@ export default {
       },
       // 地址数据
       cityData,
+      // 物流进度对话框
+      progressDialogVisible:false,
+      // 物流信息数据
+      progressInfo:{
+        
+      }
     }
   },
   methods: {
@@ -239,11 +261,23 @@ export default {
     },
     // 修改表单提交
     editInfo(){
-      
+      this.$message.success('地址修改成功！');
+      this.addressDialogVisible = false;
     },
     // 修改对话框关闭
     editDialogClosed(){
       this.$refs.addressFormRef.resetFields()
+    },
+    // 物流进度对话框打开
+    async showProgressBox(){
+      // 获取物流信息
+      const { data:res} = await this.$http.get('/kuaidi/900814863705')
+      if (res.meta.status !== 200) {
+        return this.$message.error('订单列表获取失败！')
+      }
+      this.progressInfo = res.data;
+      this.progressDialogVisible = true;
+      console.log(this.progressInfo);
     }
   },
   created() {

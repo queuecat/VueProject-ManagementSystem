@@ -35,7 +35,9 @@ import {
   Step,
   checkboxGroup,
   Checkbox,
-  Upload
+  Upload,
+  Timeline,
+  TimelineItem
 } from 'element-ui'
 //导入信息提示组件
 import { Message } from 'element-ui'
@@ -74,7 +76,8 @@ Vue.use(Step)
 Vue.use(checkboxGroup)
 Vue.use(Checkbox)
 Vue.use(Upload)
-
+Vue.use(Timeline)
+Vue.use(TimelineItem)
 
 //将消息提示组件挂载到vue实例上
 Vue.prototype.$message = Message
