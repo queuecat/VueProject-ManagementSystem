@@ -513,7 +513,7 @@ export default {
   margin: 15px 0;
 }
 .el-cascader{
-  width: 222px;
+  width: 222px !important;
 }
 .el-tag{
   margin: 10px;

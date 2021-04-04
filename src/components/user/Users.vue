@@ -528,5 +528,7 @@ export default {
 </script>
 
 <style>
-
+.el-cascader{
+  width: 222px !important;
+}
 </style>
