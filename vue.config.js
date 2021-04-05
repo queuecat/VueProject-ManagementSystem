@@ -1,5 +1,6 @@
 module.exports = {
   lintOnSave: false,
+  publicPath: "/demos/vue-shop/",
   chainWebpack: config => {
     // 发布模式
     config.when(process.env.NODE_ENV === 'production', config => {
@@ -26,6 +27,14 @@ module.exports = {
       config.plugin('html').tap(args => {
         args[0].title = "电商后台管理系统"
         return args
+      })
+      // CDN资源导入
+      config.set('externals', {
+        vue: 'Vue', 'vue-router': 'VueRouter',
+        axios: 'axios',
+        lodash: '_',
+        echarts: 'echarts',
+        nprogress: 'NProgress', 'vue-quill-editor': 'VueQuillEditor'
       })
     })
   }

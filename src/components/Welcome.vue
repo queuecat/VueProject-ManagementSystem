@@ -1,6 +1,9 @@
 <template>
   <div>
-    <el-row :gutter="20">
+    <el-row
+      :gutter="20"
+      class="marginbt"
+    >
       <el-col :span="6">
         <el-card class="box-card">
           <el-row
@@ -183,5 +186,7 @@ i:before{
 .center{
   text-align: center;
 }
-
+.marginbt{
+  margin-bottom: 15px;
+}
 </style>

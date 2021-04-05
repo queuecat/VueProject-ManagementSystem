@@ -4,7 +4,7 @@
       <!-- 头像 -->
       <div class="avatar_box">
         <img
-          src="../assets/logo.png"
+          src="../assets/logoT.png"
           alt=""
         />
       </div>
@@ -28,7 +28,7 @@
         >
           <!-- 用户名 -->
           <el-input
-            placeholder="请输入用户名"
+            placeholder="请输入用户名(admin)"
             v-model="loginForm.username"
             clearable
             prefix-icon="iconfont icon-user"
@@ -38,7 +38,7 @@
         <!-- 密码 -->
         <el-form-item prop="password">
           <el-input
-            placeholder="请输入密码"
+            placeholder="请输入密码(123456)"
             v-model="loginForm.password"
             show-password
             prefix-icon="iconfont icon-3702mima"
@@ -128,7 +128,8 @@ export default {
 <style lang="less" scoped>
 /* 背景 */
 .login_container {
-  background-color: #2b4b6b;
+  background-color: #283339;
+  background-image: radial-gradient(ellipse at center bottom, hsl(201, 18%, 43%), transparent);
   height: 100%;
 }
 

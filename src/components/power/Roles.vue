@@ -29,11 +29,11 @@
           <!-- 使用作用域插槽获取行信息,并渲染 -->
           <template v-slot="scope">
             <!-- 栅格系统 一行24格 -->
-            <el-row class="bdbottom bdtop">
-              <el-tag
-                v-if="!scope.row.children.toString()"
-                type="info"
-              >
+            <el-row
+              class="bdbottom bdtop"
+              v-if="!scope.row.children.toString()"
+            >
+              <el-tag type="info">
                 角色暂无权限
               </el-tag>
             </el-row>
