@@ -21,7 +21,7 @@ import "nprogress/nprogress.css"
 //导入axios
 import axios from 'axios'
 //设置axios默认设置
-axios.defaults.baseURL = "http://127.0.0.1:8888/api/private/v1/"//默认路径
+axios.defaults.baseURL = "http://queuecat.top:8888/api/private/v1/"//默认路径
 // axios请求拦截,添加token和进度条start方法
 axios.interceptors.request.use(config => {
   var token = window.sessionStorage.getItem('token')

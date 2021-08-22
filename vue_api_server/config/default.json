@@ -5,13 +5,13 @@
         "expiresIn": 86400
     },
     "upload_config": {
-        "baseURL": "http://127.0.0.1:8888",
+        "baseURL": "http://123.57.65.145:8888",
         "upload_ueditor": "uploads/ueditor",
-        "simple_upload_redirect": "http://127.0.0.1/reload"
+        "simple_upload_redirect": "http://123.57.65.145/reload"
     },
     "db_config": {
         "protocol": "mysql",
-        "host": "127.0.0.1",
+        "host": "123.57.65.145",
         "database": "vue_shop",
         "user": "root",
         "password": "19831610833",

@@ -111,6 +111,47 @@
       </el-pagination>
 
     </el-card>
+    <!-- 修改用户对话框 -->
+    <el-dialog
+      title="修改商品信息"
+      :visible.sync="editDialogVisible"
+      width="30%"
+      @close="editDialogVisible=false"
+    >
+      <el-form
+        ref="editFormRef"
+        :model="editForm"
+        label-width="80px"
+        :rules="editFormRules"
+      >
+        <el-form-item label="商品名称">
+          <el-input
+            v-model="editForm.goods_name"
+          ></el-input>
+        </el-form-item>
+        
+        <el-form-item
+          label="商品数量"
+        >
+          <el-input-number v-model="editForm.goods_number"  :min="1" :max="1000"></el-input-number>
+        </el-form-item>
+        <el-form-item
+          label="商品价格"
+        >
+          <el-input-number v-model="editForm.goods_price"  :min="1" :max="1000"></el-input-number>
+        </el-form-item>
+      </el-form>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="editDialogVisible = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="editUserInfo"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -128,8 +169,10 @@ export default {
       total:0,
       // 商品数据
       goodsList:[],
-     
-
+     // 修改用户对话框弹出
+      editDialogVisible:false,
+      // 修改用户时查询数据
+      editForm:{},
     }
   },
   methods: {
@@ -177,7 +220,29 @@ export default {
     // 添加商品按钮
     goAddpage(){
       this.$router.push('/goods/add');
-    }
+    },
+    // 修改商品按钮
+    async showEditDialog({row:{goods_id:id}}){
+      this.editDialogVisible = true;
+      const {data:res} = await this.$http.get('goods/'+id)
+      console.log(id,res);
+      if(res.meta.status!==200) return this.$message.error("查询当前商品失败")
+      this.editForm = res.data;
+    },
+    // 提交修改表单
+    async editUserInfo(){
+     
+      //验证成功发起网络请求
+      const {data:res} = await this.$http.put('goods/'+this.editForm.goods_id,this.editForm);
+      console.log(res);
+      if (res.meta.status!==200) {
+        return this.$message.error("更新失败")
+      }
+        this.$message.success("更新成功")
+        this.editDialogVisible = false;
+        this.getGoodsList()
+      
+    },
   },
   created() {
     this.getGoodsList()
